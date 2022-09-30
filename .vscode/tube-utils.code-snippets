@@ -26,5 +26,25 @@
     "prefix": "mdq",
     "body": ["@media screen and (min-width: $1) {$2}"],
     "description": "Write the font size which calculates pixels and rem divided. Used to better understand the size of the font, but still let them be accessible as rems in the browser."
+  },
+  "Primary color": {
+    "scope": "css",
+    "prefix": "vrp",
+    "body": ["var(--colors-primary)"]
+  },
+  "Secondary color": {
+    "scope": "css",
+    "prefix": "vrs",
+    "body": ["var(--colors-secondary)"]
+  },
+  "Tertiary color": {
+    "scope": "css",
+    "prefix": "vrt",
+    "body": ["var(--colors-tertiary)"]
+  },
+  "Quaternary color": {
+    "scope": "css",
+    "prefix": "vrq",
+    "body": ["var(--colors-quaternary)"]
   }
 }

@@ -1,8 +1,8 @@
 :root {
-  --colors-primary: "#161616",
-  --colors-secondary: "#9B9B9B",
-  --colors-tertiary: "#FFFFFF",
-  --colors-quaternary: "#FF0000",
+  --colors-primary: '#161616';
+  --colors-secondary: '#9B9B9B';
+  --colors-tertiary: '#FFFFFF';
+  --colors-quaternary: '#FF0000';
 }
 
 *,
@@ -25,4 +25,5 @@ html {
 body {
   box-sizing: border-box;
   height: 100%;
+  background-color: var(--colors-primary);
 }

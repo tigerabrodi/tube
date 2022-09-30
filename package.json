@@ -18,8 +18,10 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "concurrently": "^7.4.0",
+    "cypress-file-upload": "^5.0.8",
     "eslint": "^8.20.0",
     "eslint-plugin-import": "^2.26.0",
     "typescript": "^4.8.2",

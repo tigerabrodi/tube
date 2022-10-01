@@ -20,9 +20,11 @@ export function App() {
   })
 
   return (
-    <Routes>
+    <>
       <Navigation />
-      <Route path="/" component={Home} />
-    </Routes>
+      <Routes>
+        <Route path="/" component={Home} />
+      </Routes>
+    </>
   )
 }

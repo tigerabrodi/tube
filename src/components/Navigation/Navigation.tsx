@@ -12,7 +12,6 @@ import { getFirebase, store } from '../../lib'
 import './Navigation.css'
 
 export function Navigation() {
-  const { user } = store
   const { auth } = getFirebase()
   const navigate = useNavigate()
 
@@ -31,7 +30,7 @@ export function Navigation() {
 
       <form class="navigation__form">
         <label for="search" class="sr-only">
-          Search
+          Search videos
         </label>
         <input
           type="text"
@@ -50,7 +49,7 @@ export function Navigation() {
       </form>
 
       <Show
-        when={user}
+        when={store.user}
         fallback={
           <Link href="/login" aria-label="Login" class="navigation__login-link">
             <Login />
@@ -62,11 +61,13 @@ export function Navigation() {
             Upload
           </Link>
 
-          <Link href={`/profile/${user.id}`}>
+          <Link href={`/profile/${store.user.id}`}>
             <img
               alt="Profile"
               class="navigation__actions-avatar"
-              src={user.imageUrl === '' ? defaultAvatar : user.imageUrl}
+              src={
+                store.user.imageUrl === '' ? defaultAvatar : store.user.imageUrl
+              }
             />
           </Link>
 

@@ -11,10 +11,10 @@
 .navigation__logo-link {
   display: flex;
   align-items: center;
-  column-gap: 8px;
+  column-gap: 4px;
   font-size: calc(1rem * 24 / 16);
   color: var(--colors-tertiary);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .navigation__logo-link svg {
@@ -56,4 +56,37 @@
   width: 45px;
   height: 45px;
   fill: var(--colors-primary);
+}
+
+.navigation__actions {
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+}
+
+.navigation__actions-upload {
+  background-color: var(--colors-primary);
+  color: var(--colors-tertiary);
+  font-weight: 700;
+  font-size: calc(1rem * 18 / 16);
+  padding: 10px 15px;
+}
+
+.navigation__actions-avatar {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 100%;
+  box-shadow: 0 1px 2px black;
+}
+
+.navigation__actions-logout {
+  width: 40px;
+  height: 45px;
+}
+
+.navigation__actions-logout svg {
+  height: 100%;
+  width: 100%;
 }

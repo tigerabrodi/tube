@@ -14,11 +14,13 @@ specifiers:
   typescript: ^4.8.2
   vite: ^3.0.9
   vite-plugin-solid: ^2.3.0
+  zod: ^3.19.1
 
 dependencies:
   '@solidjs/router': 0.4.3_solid-js@1.5.7
   firebase: 9.10.0
   solid-js: 1.5.7
+  zod: 3.19.1
 
 devDependencies:
   '@faker-js/faker': 7.5.0
@@ -4004,3 +4006,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod/3.19.1:
+    resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
+    dev: false

@@ -1,11 +1,11 @@
-import type { User } from 'firebase/auth'
+import type { User } from './schemas'
 
 import { createStore } from 'solid-js/store'
 
 type Store = {
-  authUser: User | null
+  user: User | null
 }
 
 export const [store, setStore] = createStore<Store>({
-  authUser: null,
+  user: null,
 })

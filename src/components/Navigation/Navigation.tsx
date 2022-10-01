@@ -1,16 +1,26 @@
-import { Link } from '@solidjs/router'
+import { Link, useNavigate } from '@solidjs/router'
+import { signOut } from 'firebase/auth'
 import { Show } from 'solid-js'
+import toast from 'solid-toast'
 
 import defaultAvatar from '../../assets/default-avatar.webp'
 import { Login } from '../../icons/Login'
 import { Logo } from '../../icons/Logo'
 import { Logout } from '../../icons/Logout'
 import { Search } from '../../icons/Search'
-import { store } from '../../lib'
+import { getFirebase, store } from '../../lib'
 import './Navigation.css'
 
 export function Navigation() {
   const { user } = store
+  const { auth } = getFirebase()
+  const navigate = useNavigate()
+
+  async function onLogout() {
+    await signOut(auth)
+    toast.success('Successfully logged out.')
+    navigate('/')
+  }
 
   return (
     <nav class="navigation">
@@ -56,11 +66,15 @@ export function Navigation() {
             <img
               alt="Profile"
               class="navigation__actions-avatar"
-              src={user.imageUrl ? user.imageUrl : defaultAvatar}
+              src={user.imageUrl === '' ? defaultAvatar : user.imageUrl}
             />
           </Link>
 
-          <button class="navigation__actions-logout" aria-label="Logout">
+          <button
+            class="navigation__actions-logout"
+            aria-label="Logout"
+            onClick={onLogout}
+          >
             <Logout />
           </button>
         </div>

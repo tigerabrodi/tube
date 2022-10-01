@@ -20,10 +20,14 @@ it('Should be able to sign up, create and edit profile.', () => {
 
   cy.findByRole('link', { name: 'Login' }).click()
 
+  cy.location('pathname').should('eq', '/login')
+
   cy.findByRole('heading', { level: 1, name: 'Login' }).should('be.visible')
   cy.findByText('Don’t have an account yet?').should('be.visible')
 
   cy.findByRole('link', { name: 'Register' }).click()
+
+  cy.location('pathname').should('eq', '/register')
   cy.findByRole('heading', { level: 1, name: 'Register' }).should('be.visible')
 
   cy.findByText('Already have an account?').should('be.visible')

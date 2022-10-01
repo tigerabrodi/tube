@@ -5,10 +5,11 @@ import { Route, Routes } from '@solidjs/router'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { onMount } from 'solid-js'
+import { Toaster } from 'solid-toast'
 
 import { Navigation } from './components'
 import { getFirebase, setStore, UserSchema } from './lib'
-import { Home } from './pages'
+import { Home, Login, Register } from './pages'
 
 export function App() {
   const { auth, firestore } = getFirebase()
@@ -33,8 +34,11 @@ export function App() {
   return (
     <>
       <Navigation />
+      <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <Routes>
         <Route path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </Routes>
     </>
   )

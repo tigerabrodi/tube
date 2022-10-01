@@ -9,7 +9,7 @@ import { Toaster } from 'solid-toast'
 
 import { Navigation } from './components'
 import { getFirebase, setStore, UserSchema } from './lib'
-import { Home, Login, Register } from './pages'
+import { Home, Login, Register, ProfileEdit } from './pages'
 
 export function App() {
   const { auth, firestore } = getFirebase()
@@ -39,6 +39,7 @@ export function App() {
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/profiles/:id/edit" component={ProfileEdit} />
       </Routes>
     </>
   )

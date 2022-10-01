@@ -1,3 +1,6 @@
+import type { Auth } from 'firebase/auth'
+import type { Firestore } from 'firebase/firestore'
+
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
@@ -8,17 +11,23 @@ function initialize() {
   const firebaseApp = initializeApp(firebaseConfig)
   const auth = getAuth(firebaseApp)
   const firestore = getFirestore(firebaseApp)
-  return { firebaseApp, auth, firestore }
+  return { auth, firestore }
 }
 
-function connectToEmulators({ firebaseApp, auth, firestore }) {
+function connectToEmulators({
+  auth,
+  firestore,
+}: {
+  firestore: Firestore
+  auth: Auth
+}) {
   if (location.hostname === 'localhost') {
     connectAuthEmulator(auth, 'http://localhost:9099', {
       disableWarnings: true,
     })
     connectFirestoreEmulator(firestore, 'localhost', 8080)
   }
-  return { firebaseApp, auth, firestore }
+  return { auth, firestore }
 }
 
 export function getFirebase() {

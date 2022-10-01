@@ -16,7 +16,7 @@ it('Should be able to sign up, edit profile and logout.', () => {
   cy.visit('/')
 
   cy.findByRole('link', { name: 'Tube' }).should('be.visible')
-  cy.findByLabelText('Search').should('be.visible')
+  cy.findByLabelText('Search videos').should('be.visible')
 
   // Authenticated navigation actions are not visible
   cy.findByRole('link', { name: 'Upload' }).should('not.exist')
@@ -27,7 +27,7 @@ it('Should be able to sign up, edit profile and logout.', () => {
   cy.findByRole('link', { name: 'Login' }).click()
   cy.location('pathname').should('eq', '/login')
   cy.findByRole('heading', { level: 1, name: 'Login' }).should('be.visible')
-  cy.findByText('Don’t have an account yet?').should('be.visible')
+  cy.findByText("Don't have an account yet?").should('be.visible')
   cy.findByRole('link', { name: 'Register' }).click()
   cy.location('pathname').should('eq', '/register')
   cy.findByRole('heading', { level: 1, name: 'Register' }).should('be.visible')

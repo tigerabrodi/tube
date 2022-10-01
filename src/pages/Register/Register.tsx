@@ -1,8 +1,9 @@
 import type { FormEvent, User } from '../../lib'
+import type { FirebaseError } from 'firebase/app'
 import type { DocumentReference } from 'firebase/firestore'
 
 import { useNavigate } from '@solidjs/router'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import toast from 'solid-toast'
 
@@ -20,6 +21,7 @@ export function Register() {
   const { auth, firestore } = getFirebase()
 
   async function onLogin(event: FormEvent<FormElements>) {
+    event.preventDefault()
     const formElements = event.currentTarget.elements
 
     const email = formElements.email.value
@@ -27,7 +29,11 @@ export function Register() {
     const password = formElements.password.value
 
     try {
-      const authUser = await signInWithEmailAndPassword(auth, email, password)
+      const authUser = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
       const user: User = {
         id: authUser.user.uid,
@@ -47,9 +53,21 @@ export function Register() {
       setDoc(userDoc, user)
 
       toast.success('Successfully created an account.')
-      navigate(`/profiles/${user.id}`)
+      navigate(`/profiles/${user.id}/edit`)
     } catch (error) {
-      // TODO: implement error handling if email already exists by showing a toast message
+      const firebaseError = error as FirebaseError
+
+      const isPasswordTooWeak = firebaseError.code === 'auth/weak-password'
+      const isEmailAlreadyInUse =
+        firebaseError.code === 'auth/email-already-in-use'
+
+      if (isPasswordTooWeak) {
+        toast.error('Password needs to be at least 6 characters.')
+      }
+
+      if (isEmailAlreadyInUse) {
+        toast.error('Email is already being used, please use a different one.')
+      }
     }
   }
 

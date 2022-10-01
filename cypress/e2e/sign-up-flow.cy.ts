@@ -32,7 +32,9 @@ it('Should be able to sign up, edit profile and logout.', () => {
   cy.location('pathname').should('eq', '/register')
   cy.findByRole('heading', { level: 1, name: 'Register' }).should('be.visible')
   cy.findByText('Already have an account?').should('be.visible')
-  cy.findByRole('link', { name: 'Login' }).should('be.visible')
+  cy.get('main').within(() => {
+    cy.findByRole('link', { name: 'Login' }).should('be.visible')
+  })
 
   // User signs up
   cy.findByLabelText('Email').type(user.email)
@@ -86,4 +88,24 @@ it('Should be able to sign up, edit profile and logout.', () => {
   cy.findByRole('link', { name: 'Upload' }).should('not.exist')
   cy.findByRole('link', { name: 'Profile' }).should('not.exist')
   cy.findByRole('button', { name: 'Logout' }).should('not.exist')
+
+  // User logs in
+  cy.findByRole('link', { name: 'Login' }).click()
+  cy.findByLabelText('Email').type(user.email)
+  cy.findByLabelText('Password').type(user.password)
+  cy.findByLabelText('Full name').should('not.exist')
+  cy.findByRole('button', { name: 'Login' }).click()
+
+  // Toast message
+  cy.findByRole('status').within(() => {
+    cy.findByText('Successfully logged in.').should('be.visible')
+  })
+
+  // Gets redirected to feed
+  cy.location('pathname').should('eq', '/')
+
+  // Authenticated navigation actions are visible
+  cy.findByRole('link', { name: 'Upload' }).should('be.visible')
+  cy.findByRole('link', { name: 'Profile' }).should('be.visible')
+  cy.findByRole('button', { name: 'Logout' }).should('be.visible')
 })

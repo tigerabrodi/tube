@@ -36,20 +36,32 @@ export function Authenticate<FormElements extends HTMLFormControlsCollection>(
 
       <form class="authenticate__form" onSubmit={props.onAuthenticate}>
         <div class="authenticate__form-group">
-          <label for="Email">Email</label>
-          <input type="text" id="email" name="email" required />
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="john@gmail.com"
+            required
+          />
         </div>
 
         <Show when={props.isRegister}>
           <div class="authenticate__form-group">
             <label for="fullname">Full name</label>
-            <input type="text" id="fullname" name="fullname" required />
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="John Danaher"
+              required
+            />
           </div>
         </Show>
 
         <div class="authenticate__form-group">
-          <label for="fullname">Password</label>
-          <input type="text" id="password" name="password" required />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
         </div>
 
         <button type="submit">{title}</button>

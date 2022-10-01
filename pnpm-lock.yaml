@@ -11,6 +11,7 @@ specifiers:
   eslint-plugin-import: ^2.26.0
   firebase: ^9.10.0
   solid-js: ^1.5.1
+  solid-toast: ^0.3.5
   typescript: ^4.8.2
   vite: ^3.0.9
   vite-plugin-solid: ^2.3.0
@@ -20,6 +21,7 @@ dependencies:
   '@solidjs/router': 0.4.3_solid-js@1.5.7
   firebase: 9.10.0
   solid-js: 1.5.7
+  solid-toast: 0.3.5_solid-js@1.5.7
   zod: 3.19.1
 
 devDependencies:
@@ -3559,6 +3561,14 @@ packages:
       '@babel/types': 7.19.3
       solid-js: 1.5.7
     dev: true
+
+  /solid-toast/0.3.5_solid-js@1.5.7:
+    resolution: {integrity: sha512-m4PX2ESex9nSwt9d9XTr3r+Kp3vjSoViDWj3gj6Xxgz21IKYODMKhACXurlZCztz56NQBnfX2m4es4I8JgXGQQ==}
+    peerDependencies:
+      solid-js: ^1.5.4
+    dependencies:
+      solid-js: 1.5.7
+    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}

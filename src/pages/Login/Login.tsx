@@ -17,6 +17,7 @@ export function Login() {
   const { auth } = getFirebase()
 
   async function onLogin(event: FormEvent<FormElements>) {
+    event.preventDefault()
     const formElements = event.currentTarget.elements
 
     const email = formElements.email.value

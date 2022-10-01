@@ -18,8 +18,12 @@
   "export function": {
     "scope": "typescript,javascript,javascriptreact,typescriptreact",
     "prefix": "exp",
-    "body": ["export function $1 () {", "return ($2)", "}"],
-    "description": "Write the font size which calculates pixels and rem divided. Used to better understand the size of the font, but still let them be accessible as rems in the browser."
+    "body": ["export function $1 () {", "return ($2)", "}"]
+  },
+  "export everything": {
+    "scope": "typescript,javascript,javascriptreact,typescriptreact",
+    "prefix": "exev",
+    "body": ["export * from './$1'"]
   },
   "Write calculated font size": {
     "scope": "css",
@@ -30,8 +34,7 @@
   "Write media query": {
     "scope": "css",
     "prefix": "mdq",
-    "body": ["@media screen and (min-width: $1) {$2}"],
-    "description": "Write the font size which calculates pixels and rem divided. Used to better understand the size of the font, but still let them be accessible as rems in the browser."
+    "body": ["@media screen and (min-width: $1) {$2}"]
   },
   "Primary color": {
     "scope": "css",

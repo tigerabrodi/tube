@@ -53,10 +53,13 @@ it('Should be able to sign up, edit profile and logout.', () => {
   cy.findByRole('button', { name: 'Logout' }).should('be.visible')
 
   // User edits new profile
-  cy.findByLabelText('Fullname').should('have.value', user.fullname)
+  cy.findByLabelText('Full name').should('have.value', user.fullname)
   cy.findByLabelText('Description').type(user.description)
   cy.findByLabelText('Upload avatar').attachFile('demo-avatar.webp')
   cy.findByRole('button', { name: 'Save' }).click()
+
+  // Loading
+  cy.findByRole('alert', { name: 'Saving profile' }).should('be.visible')
 
   // Profile
   cy.findByRole('heading', { level: 1, name: 'Profile' }).should('be.visible')

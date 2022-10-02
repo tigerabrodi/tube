@@ -49,7 +49,8 @@ a {
   text-decoration: none;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   opacity: 0.5;
 }
 

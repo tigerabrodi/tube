@@ -10,7 +10,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "dev": "concurrently pnpm:emulators vite",
-    "emulators": "firebase emulators:start",
+    "emulators": "firebase emulators:start --import=./local --export-on-exit",
     "lint": "eslint --ext .tsx,.jsx,.js,.ts --ignore-path .gitignore src",
     "lint-fix": "eslint --ext .tsx,.jsx,.js,.ts --ignore-path .gitignore --fix src",
     "cy:run": "cypress run",

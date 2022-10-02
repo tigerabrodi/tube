@@ -34,7 +34,7 @@ export function App() {
   return (
     <>
       <Navigation />
-      <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />

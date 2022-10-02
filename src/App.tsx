@@ -24,9 +24,9 @@ export function App() {
         const userSnapshot = await getDoc(userDoc)
         const user = UserSchema.parse(userSnapshot.data())
 
-        setStore({ user })
+        setStore({ user, hasFinishedLoadingUser: true })
       } else {
-        setStore({ user: null })
+        setStore({ user: null, hasFinishedLoadingUser: true })
       }
     })
   })

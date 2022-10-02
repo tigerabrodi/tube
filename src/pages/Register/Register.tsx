@@ -50,7 +50,7 @@ export function Register() {
         firestore,
         `/users/${user.id}`
       ) as DocumentReference<User>
-      setDoc(userDoc, user)
+      await setDoc(userDoc, user)
 
       toast.success('Successfully created an account.')
       navigate(`/profiles/${user.id}/edit`)

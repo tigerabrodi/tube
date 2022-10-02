@@ -8,6 +8,7 @@
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-empty-function": "off",
     "no-await-in-loop": "error",
     "import/order": [
       "error",

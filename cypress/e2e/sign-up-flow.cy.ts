@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker'
 
+const DEMO_AVATAR = 'demo-avatar.webp'
+
 const user = {
   email: faker.internet.email(),
   fullname: faker.name.fullName(),
   password: faker.internet.password(),
   description: faker.random.words(5),
   editedDescription: faker.random.words(5),
-}
+} as const
 
 beforeEach(() => {
   indexedDB.deleteDatabase('firebaseLocalStorageDb')
@@ -55,7 +57,7 @@ it('Should be able to sign up, edit profile and logout.', () => {
   // User edits new profile
   cy.findByLabelText('Full name').should('have.value', user.fullname)
   cy.findByLabelText('Description').type(user.description)
-  cy.findByLabelText('Upload avatar').attachFile('demo-avatar.webp')
+  cy.findByLabelText('Upload avatar').attachFile(DEMO_AVATAR)
   cy.findByRole('button', { name: 'Save' }).click()
 
   // Loading

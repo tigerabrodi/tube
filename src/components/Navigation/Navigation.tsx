@@ -61,7 +61,7 @@ export function Navigation() {
             Upload
           </Link>
 
-          <Link href={`/profile/${store.user.id}`}>
+          <Link href={`/profiles/${store.user.id}`}>
             <img
               alt="Profile"
               class="navigation__actions-avatar"

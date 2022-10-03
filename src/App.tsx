@@ -9,7 +9,7 @@ import { Toaster } from 'solid-toast'
 
 import { Navigation } from './components'
 import { getFirebase, setStore, UserSchema } from './lib'
-import { Home, Login, Register, ProfileEdit } from './pages'
+import { Home, Login, Register, ProfileEdit, Profile } from './pages'
 
 export function App() {
   const { auth, firestore } = getFirebase()
@@ -34,12 +34,14 @@ export function App() {
   return (
     <>
       <Navigation />
-      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+      {/* TODO: change this to 3000ms before PROD */}
+      <Toaster position="top-center" toastOptions={{ duration: 500 }} />
       <Routes>
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/profiles/:id/edit" component={ProfileEdit} />
+        <Route path="/profiles/:id" component={Profile} />
       </Routes>
     </>
   )

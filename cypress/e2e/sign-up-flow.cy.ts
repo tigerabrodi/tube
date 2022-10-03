@@ -70,7 +70,7 @@ it('Should be able to sign up, edit profile and logout.', () => {
 
   // User edits profile
   cy.findByRole('link', { name: 'Edit' }).click()
-  cy.findByRole('heading', { level: 1, name: 'Edit Profile' }).should(
+  cy.findByRole('heading', { level: 1, name: 'Edit profile' }).should(
     'be.visible'
   )
   cy.findByLabelText('Description').clear().type(user.editedDescription)

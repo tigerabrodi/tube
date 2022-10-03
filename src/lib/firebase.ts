@@ -4,7 +4,8 @@ import type { FirebaseStorage } from 'firebase/storage'
 
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth, connectAuthEmulator } from 'firebase/auth'
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { initializeFirestore } from 'firebase/firestore'
+import { connectFirestoreEmulator } from 'firebase/firestore'
 import { connectStorageEmulator } from 'firebase/storage'
 import { getStorage } from 'firebase/storage'
 
@@ -19,7 +20,9 @@ type FirebaseObject = {
 function initialize() {
   const firebaseApp = initializeApp(firebaseConfig)
   const auth = getAuth(firebaseApp)
-  const firestore = getFirestore(firebaseApp)
+  const firestore = initializeFirestore(firebaseApp, {
+    experimentalForceLongPolling: true,
+  })
   const storage = getStorage(firebaseApp)
   return { auth, firestore, storage }
 }

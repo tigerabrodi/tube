@@ -101,11 +101,35 @@ export function ProfileEdit() {
       : store.user.imageUrl
   }
 
+  async function handleUpdateUserDocument(imageUrl?: string) {
+    const fullname = formState().fullname
+    const description = formState().description
+
+    const userDoc = doc(
+      firestore,
+      `users/${store.user.id}`
+    ) as DocumentReference<User>
+
+    await updateDoc(userDoc, {
+      fullname,
+      description,
+      ...(imageUrl ? { imageUrl } : {}),
+    })
+
+    URL.revokeObjectURL(imageState().imageUrl)
+    setStatus('success')
+    navigate(`/profiles/${store.user.id}`)
+  }
+
   async function onSubmit(event: FormEvent) {
     event.preventDefault()
     setStatus('loading')
-    const fullname = formState().fullname
-    const description = formState().description
+
+    const hasNewFileBeenUploaded = imageState().imageUrl === ''
+
+    if (hasNewFileBeenUploaded) {
+      return await handleUpdateUserDocument()
+    }
 
     const file = imageState().imageFile
     const extension = file.type.split('/')[1]
@@ -120,20 +144,8 @@ export function ProfileEdit() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (imageUrl) => {
-          const userDoc = doc(
-            firestore,
-            `users/${store.user.id}`
-          ) as DocumentReference<User>
-
-          await updateDoc(userDoc, {
-            fullname,
-            description,
-            imageUrl,
-          })
-
-          URL.revokeObjectURL(imageState().imageUrl)
+          await handleUpdateUserDocument(imageUrl)
           setStatus('success')
-          navigate(`/profiles/${store.user.id}`)
         })
       }
     )
@@ -141,6 +153,7 @@ export function ProfileEdit() {
 
   return (
     <main class="profile-edit">
+      <h1 class="sr-only">Edit profile</h1>
       <form class="profile-edit__form" onSubmit={onSubmit}>
         <Show when={status() === 'loading'}>
           <Spinner label="Saving profile" />
@@ -150,10 +163,11 @@ export function ProfileEdit() {
           class="sr-only"
           id="image"
           accept="image/*"
+          aria-label="Upload avatar"
           onChange={onImageUpload}
         />
         <label for="image" class="profile-edit__form-avatar-upload">
-          <img alt="Upload avatar" src={getImageUrl()} />
+          <img alt="" src={getImageUrl()} />
         </label>
         <input
           type="text"

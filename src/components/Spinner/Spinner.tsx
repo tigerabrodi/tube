@@ -3,11 +3,12 @@ import './Spinner.css'
 
 type SpinnerProps = {
   label: string
+  class: string
 }
 
 export function Spinner(props: SpinnerProps) {
   return (
-    <div class="spinner" role="alert" aria-label={props.label}>
+    <div class={props.class} role="alert" aria-label={props.label}>
       <Circle />
     </div>
   )

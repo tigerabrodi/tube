@@ -3,13 +3,23 @@ import type { DocumentReference } from 'firebase/firestore'
 
 import { Route, Routes } from '@solidjs/router'
 import { onAuthStateChanged } from 'firebase/auth'
+import { onSnapshot } from 'firebase/firestore'
 import { doc, getDoc } from 'firebase/firestore'
-import { onMount } from 'solid-js'
+import { createEffect, onCleanup, onMount } from 'solid-js'
 import { Toaster } from 'solid-toast'
 
 import { Navigation } from './components'
+import { store } from './lib'
 import { getFirebase, setStore, UserSchema } from './lib'
-import { Home, Login, Register, ProfileEdit, Profile } from './pages'
+import {
+  Home,
+  Login,
+  Register,
+  ProfileEdit,
+  Profile,
+  VideosNew,
+  VideoDetail,
+} from './pages'
 
 export function App() {
   const { auth, firestore } = getFirebase()
@@ -31,6 +41,21 @@ export function App() {
     })
   })
 
+  // Necessary to make sure user object updates whenever any changes happen to the user document in firestore.
+  createEffect(() => {
+    if (store.user && store.hasFinishedLoadingUser) {
+      const userDoc = doc(
+        firestore,
+        `/users/${store.user.id}`
+      ) as DocumentReference<User>
+      const unsubscribe = onSnapshot(userDoc, (doc) => {
+        setStore({ user: doc.data() })
+      })
+
+      onCleanup(() => unsubscribe)
+    }
+  })
+
   return (
     <>
       <Navigation />
@@ -42,6 +67,9 @@ export function App() {
         <Route path="/register" component={Register} />
         <Route path="/profiles/:id/edit" component={ProfileEdit} />
         <Route path="/profiles/:id" component={Profile} />
+        <Route path="/profiles/:id" component={Profile} />
+        <Route path="/videos/new" component={VideosNew} />
+        <Route path="/videos/:id" component={VideoDetail} />
       </Routes>
     </>
   )

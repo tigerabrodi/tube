@@ -13,6 +13,30 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>
 
+export const TimestampSchema = z.object({
+  seconds: z.number(),
+  nanoseconds: z.number(),
+})
+export type Timestamp = z.infer<typeof TimestampSchema>
+
+export const VideoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  thumbnailUrl: z.string(),
+  videoUrl: z.string(),
+  likes: z.number(),
+  views: z.number(),
+  createdAt: TimestampSchema,
+  author: z.object({
+    id: z.string(),
+    imageUrl: z.string(),
+    fullname: z.string(),
+  }),
+})
+
+export type Video = z.infer<typeof VideoSchema>
+
 type FormElement<
   FormElements extends HTMLFormControlsCollection = HTMLFormControlsCollection
 > = HTMLFormElement & {

@@ -30,13 +30,23 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
 
   //   Create video
   cy.findByRole('link', { name: 'Upload' }).click()
+  cy.location('pathname').should('eq', '/videos/new')
   cy.findByRole('heading', { name: 'Upload new video', level: 1 }).should(
     'exist'
   )
   cy.findByLabelText('Title').type(video.title)
   cy.findByLabelText('Description').type(video.description)
+
+  cy.get('main').within(() => {
+    cy.findByRole('img').should('not.exist')
+    cy.get('video').should('not.exist')
+  })
   cy.findByLabelText('Thumbnail').attachFile(DEMO_THUMBNAIL)
   cy.findByLabelText('Video').attachFile(DEMO_VIDEO)
+  cy.get('main').within(() => {
+    cy.findByRole('img').should('be.visible')
+    cy.get('video').should('be.visible')
+  })
 
   cy.findByRole('button', { name: 'Save' }).click()
   cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')

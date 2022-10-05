@@ -10,6 +10,7 @@ import toast from 'solid-toast'
 import defaultAvatar from '../../assets/default-avatar.webp'
 import { Spinner } from '../../components'
 import { Close } from '../../icons/Close'
+import { getExtensionOfFile } from '../../lib'
 import { getFirebase, store } from '../../lib'
 import './ProfileEdit.css'
 import { useFormState } from '../../primitives'
@@ -114,7 +115,7 @@ export function ProfileEdit() {
     }
 
     const file = imageState().imageFile
-    const extension = file.type.split('/')[1]
+    const extension = getExtensionOfFile(file)
     const avatarRef = ref(storage, `avatars/${store.user.id}.${extension}`)
 
     const snapshot = await uploadBytes(avatarRef, file)

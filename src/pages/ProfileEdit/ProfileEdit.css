@@ -81,11 +81,18 @@
   height: 100%;
 }
 
-.spinner {
+.spinner-profile-edit {
   position: absolute;
   top: 16px;
   left: 16px;
   width: 26px;
   height: 26px;
+}
+
+.spinner-profile-edit svg {
+  animation: 0.2s spinning infinite both;
+}
+
+.spinner-profile-edit path {
   fill: var(--colors-primary);
 }

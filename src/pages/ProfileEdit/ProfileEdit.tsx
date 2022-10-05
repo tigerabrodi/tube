@@ -3,23 +3,20 @@ import type { DocumentReference } from 'firebase/firestore'
 
 import { Link, useNavigate, useParams } from '@solidjs/router'
 import { doc, updateDoc } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { createEffect, createSignal, Show } from 'solid-js'
 import toast from 'solid-toast'
 
 import defaultAvatar from '../../assets/default-avatar.webp'
 import { Spinner } from '../../components'
 import { Close } from '../../icons/Close'
-import { getFirebase } from '../../lib'
-import { store } from '../../lib'
-
+import { getFirebase, store } from '../../lib'
 import './ProfileEdit.css'
+import { useFormState } from '../../primitives'
 
 type Params = {
   id: string
 }
-
-type InputORTextarea = HTMLInputElement | HTMLTextAreaElement
 
 export function ProfileEdit() {
   const navigate = useNavigate()
@@ -28,7 +25,8 @@ export function ProfileEdit() {
     imageUrl: '',
     imageFile: {} as File,
   })
-  const [formState, setFormState] = createSignal({
+
+  const { formState, setFormState, handleFormStateChange } = useFormState({
     fullname: '',
     description: '',
   })
@@ -62,20 +60,6 @@ export function ProfileEdit() {
     }
   })
 
-  function handleChange(
-    event: InputEvent & {
-      currentTarget: InputORTextarea
-      target: Element
-    }
-  ) {
-    setFormState({
-      ...formState(),
-      [(event.target as InputORTextarea).name]: (
-        event.target as InputORTextarea
-      ).value,
-    })
-  }
-
   function onImageUpload(event: FileInputEvent) {
     const imageFile = event.target.files ? event.target.files?.[0] : null
     if (!imageFile) {
@@ -89,8 +73,6 @@ export function ProfileEdit() {
       imageUrl,
       imageFile,
     })
-
-    return
   }
 
   function getImageUrl() {
@@ -134,21 +116,10 @@ export function ProfileEdit() {
     const file = imageState().imageFile
     const extension = file.type.split('/')[1]
     const avatarRef = ref(storage, `avatars/${store.user.id}.${extension}`)
-    const uploadTask = uploadBytesResumable(avatarRef, file)
 
-    uploadTask.on(
-      'state_changed',
-      () => {},
-      () => {
-        toast.error('Avatar upload did not succeed.')
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (imageUrl) => {
-          await handleUpdateUserDocument(imageUrl)
-          setStatus('success')
-        })
-      }
-    )
+    const snapshot = await uploadBytes(avatarRef, file)
+    const imageUrl = await getDownloadURL(snapshot.ref)
+    await handleUpdateUserDocument(imageUrl)
   }
 
   return (
@@ -156,7 +127,7 @@ export function ProfileEdit() {
       <h1 class="sr-only">Edit profile</h1>
       <form class="profile-edit__form" onSubmit={onSubmit}>
         <Show when={status() === 'loading'}>
-          <Spinner label="Saving profile" />
+          <Spinner label="Saving profile" class="spinner-profile-edit" />
         </Show>
         <input
           type="file"
@@ -175,7 +146,7 @@ export function ProfileEdit() {
           placeholder="Simon Kuna"
           aria-label="Full name"
           value={formState().fullname}
-          onInput={handleChange}
+          onInput={handleFormStateChange}
           class="profile-edit__form-input"
         />
         <textarea
@@ -184,7 +155,7 @@ export function ProfileEdit() {
           placeholder="I share cute videos."
           aria-label="Description"
           value={formState().description}
-          onInput={handleChange}
+          onInput={handleFormStateChange}
         />
         <button type="submit">Save</button>
 

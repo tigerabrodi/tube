@@ -16,7 +16,7 @@ type FormElements = HTMLFormControlsCollection & {
   password: HTMLInputElement
 }
 
-export function Register() {
+export default function Register() {
   const navigate = useNavigate()
   const { auth, firestore } = getFirebase()
 

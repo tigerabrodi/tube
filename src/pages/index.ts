@@ -1,7 +1,0 @@
-export * from './Home'
-export * from './Register'
-export * from './Login'
-export * from './ProfileEdit'
-export * from './Profile'
-export * from './VideosNew'
-export * from './VideoDetail'

@@ -15,7 +15,7 @@ type Params = {
   id: string
 }
 
-export function Profile() {
+export default function Profile() {
   const [user, setUser] = createSignal<User | null>(null)
 
   const { firestore } = getFirebase()

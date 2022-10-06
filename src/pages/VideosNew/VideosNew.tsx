@@ -13,7 +13,7 @@ import { getExtensionOfFile } from '../../lib'
 import { getFirebase } from '../../lib'
 import { store } from '../../lib'
 
-export function VideosNew() {
+export default function VideosNew() {
   const [status, setStatus] = createSignal<Status>('idle')
   const navigate = useNavigate()
 
@@ -65,6 +65,7 @@ export function VideosNew() {
         id: store.user.id,
         imageUrl: store.user.imageUrl,
         fullname: store.user.fullname,
+        subscriberIds: store.user.subscribedToIds,
       },
     }
 

@@ -12,7 +12,7 @@ type FormElements = HTMLFormControlsCollection & {
   password: HTMLInputElement
 }
 
-export function Login() {
+export default function Login() {
   const navigate = useNavigate()
   const { auth } = getFirebase()
 

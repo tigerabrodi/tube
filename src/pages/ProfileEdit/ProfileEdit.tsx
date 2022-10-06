@@ -1,7 +1,14 @@
-import type { FileInputEvent, FormEvent, Status, User } from '../../lib'
+import type { FileInputEvent, FormEvent, Status, User, Video } from '../../lib'
 import type { DocumentReference } from 'firebase/firestore'
 
 import { Link, useNavigate, useParams } from '@solidjs/router'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+} from 'firebase/firestore'
 import { doc, updateDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { createEffect, createSignal, Show } from 'solid-js'
@@ -19,7 +26,7 @@ type Params = {
   id: string
 }
 
-export function ProfileEdit() {
+export default function ProfileEdit() {
   const navigate = useNavigate()
   const { firestore, storage } = getFirebase()
   const [imageState, setImageState] = createSignal({
@@ -93,11 +100,32 @@ export function ProfileEdit() {
       `users/${store.user.id}`
     ) as DocumentReference<User>
 
-    await updateDoc(userDoc, {
+    const queryVideosOfUser = query(
+      collection(firestore, 'videos'),
+      where('author.id', '==', store.user.id)
+    )
+    const videoQuerySnapshot = await getDocs<Video>(queryVideosOfUser)
+
+    const batch = writeBatch(firestore)
+
+    if (!videoQuerySnapshot.empty) {
+      videoQuerySnapshot.forEach((videoDoc) => {
+        batch.update(videoDoc.ref, {
+          author: {
+            fullname,
+            ...(imageUrl ? { imageUrl } : {}),
+          },
+        })
+      })
+    }
+
+    batch.update(userDoc, {
       fullname,
       description,
       ...(imageUrl ? { imageUrl } : {}),
     })
+
+    await batch.commit()
 
     URL.revokeObjectURL(imageState().imageUrl)
     setStatus('success')

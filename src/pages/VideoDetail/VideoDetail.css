@@ -1,0 +1,113 @@
+.video-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  width: 100%;
+}
+
+.video-detail__video {
+  width: 848px;
+  height: 416px;
+  object-fit: cover;
+  object-position: center;
+  margin-top: 25px;
+}
+
+.video-detail__video-info {
+  display: grid;
+  margin-top: 30px;
+  width: 848px;
+  align-items: center;
+  justify-items: start;
+  grid-template-areas: 'title title likes' 'views views views' 'description description description' 'image fullname edit' 'image subscribers edit';
+  grid-template-columns: auto 70% auto;
+}
+
+.video-detail__video-info h1 {
+  grid-area: title;
+  color: var(--colors-tertiary);
+  font-size: calc(1rem * 20 / 16);
+  font-weight: 700;
+  width: 100%;
+}
+
+.video-detail__video-info-like {
+  grid-area: likes;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  justify-self: end;
+}
+
+.video-detail__video-info-like span {
+  color: var(--colors-tertiary);
+  font-size: calc(1rem * 14 / 16);
+  font-weight: 500;
+}
+
+.video-detail__video-info-like svg {
+  width: 24px;
+  height: 24px;
+}
+
+.video-detail__video-info-views {
+  grid-area: views;
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: var(--colors-secondary);
+  font-weight: 400;
+  font-size: calc(1rem * 15 / 16);
+  column-gap: 2px;
+  align-self: end;
+}
+
+.video-detail__video-info-description {
+  grid-area: description;
+  font-weight: 400;
+  color: var(--colors-tertiary);
+  font-size: calc(1rem * 16 / 16);
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.video-detail__video-author-image {
+  grid-area: image;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 100%;
+  justify-self: end;
+  margin-right: 8px;
+}
+
+.video-detail__video-author-fullname {
+  grid-area: fullname;
+  width: 40px;
+  font-size: calc(1rem * 18 / 16);
+  font-weight: 700;
+  color: var(--colors-tertiary);
+  text-decoration: underline;
+  width: 100%;
+}
+
+.video-detail__video-author-subscribers {
+  grid-area: subscribers;
+  color: var(--colors-secondary);
+  font-size: calc(1rem * 15 / 16);
+  font-weight: 400;
+  width: 100%;
+}
+
+.video-detail__video-edit {
+  grid-area: edit;
+  width: 22px;
+  height: 22px;
+  justify-self: start;
+}
+
+.video-detail__video-edit path {
+  fill: var(--colors-tertiary);
+}

@@ -2,7 +2,7 @@ import type { Timestamp } from '.'
 import type { FieldValue } from 'firebase/firestore'
 
 export function getTimestamp(timestamp: Timestamp | FieldValue): Timestamp {
-  if ('seconds' in timestamp) {
+  if (timestamp && 'seconds' in timestamp) {
     return timestamp
   }
 
@@ -11,13 +11,13 @@ export function getTimestamp(timestamp: Timestamp | FieldValue): Timestamp {
 
 export function getCurrentTimestamp(): Timestamp {
   return {
-    seconds: Date.now() * 1000,
+    seconds: Math.round(Date.now() / 1000),
     nanoseconds: 0,
   }
 }
 
 export function getDateWithTimestamp(firebaseDate: Timestamp) {
-  return new Date(firebaseDate.seconds * 1000)
+  return new Date(firebaseDate.seconds * 1000).toISOString().slice(0, 10)
 }
 
 export function getExtensionOfFile(file: File) {

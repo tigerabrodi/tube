@@ -32,6 +32,7 @@ export const VideoSchema = z.object({
     id: z.string(),
     imageUrl: z.string(),
     fullname: z.string(),
+    subscriberIds: z.array(z.string()),
   }),
 })
 

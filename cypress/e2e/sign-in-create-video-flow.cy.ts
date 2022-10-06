@@ -23,12 +23,12 @@ beforeEach(() => {
 it('Should be able to sign in, create a new video and edit the video.', () => {
   cy.visit('/login')
 
-  //   login
+  // login
   cy.findByLabelText('Email').type(firstUser.email)
   cy.findByLabelText('Password').type(firstUser.password)
   cy.findByRole('button', { name: 'Login' }).click()
 
-  //   Create video
+  // Create video
   cy.findByRole('link', { name: 'Upload' }).click()
   cy.location('pathname').should('eq', '/videos/new')
   cy.findByRole('heading', { name: 'Upload new video', level: 1 }).should(
@@ -51,7 +51,7 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
   cy.findByRole('button', { name: 'Save' }).click()
   cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')
 
-  //    Assert the video page
+  // Assert the video page
   cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
   cy.findByText(video.description).should('be.visible')
   cy.findByText('1 views').should('be.visible')
@@ -59,12 +59,12 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
 
   // First user likes own video
   cy.findByRole('button', { name: 'Like video, currently 0 likes' }).click()
-  cy.findByRole('button', { name: 'Dislike video, currently 1 likes' }).click()
+  cy.findByRole('button', { name: 'Unlike video, currently 1 likes' }).click()
   cy.findByRole('button', { name: 'Like video, currently 0 likes' }).should(
     'be.visible'
   )
 
-  //   Go to profile
+  // Go to profile
   cy.findByRole('link', { name: firstUser.fullname }).click()
 
   // Click on video item
@@ -92,7 +92,7 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
   cy.findByRole('button', { name: 'Save' }).click()
   cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')
 
-  //   Assert the edited video page
+  // Assert the edited video page
   cy.findByRole('heading', { level: 1, name: video.editedTitle }).should(
     'be.visible'
   )

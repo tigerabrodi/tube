@@ -111,7 +111,8 @@ export default function VideoDetail() {
         </Show>
 
         <p class="video-detail__video-info-views">
-          <span>{video()?.views} views</span> •{' '}
+          <span>{video()?.views} views</span>
+          <span>•</span>
           <span>{getDateWithTimestamp(getTimestamp(video()?.createdAt))}</span>
         </p>
 

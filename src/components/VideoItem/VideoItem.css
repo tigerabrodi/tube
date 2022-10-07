@@ -1,0 +1,59 @@
+.video {
+  display: grid;
+  grid-template-areas: 'thumbnail thumbnail thumbnail' 'image title title' '. fullname fullname' '. views edit';
+  align-items: center;
+  justify-items: start;
+  row-gap: 6px;
+  column-gap: 14px;
+}
+
+.video__thumbnail {
+  grid-area: thumbnail;
+  width: 248px;
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.video__author-image {
+  grid-area: image;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 100%;
+}
+
+.video__title {
+  grid-area: title;
+  font-weight: 700;
+  font-size: calc(1rem * 16 / 16);
+  color: var(--colors-tertiary);
+}
+
+.video__author-fullname {
+  grid-area: fullname;
+  font-weight: 400;
+  color: var(--colors-secondary);
+  font-size: calc(1rem * 14 / 16);
+}
+
+.video__views {
+  grid-area: views;
+  display: flex;
+  align-items: center;
+  color: var(--colors-secondary);
+  font-size: calc(1rem * 14 / 16);
+  font-weight: 400;
+  column-gap: 2px;
+}
+
+.video__edit {
+  grid-area: edit;
+  width: 16px;
+  height: 16px;
+}
+
+.video__edit path {
+  fill: var(--colors-tertiary);
+}

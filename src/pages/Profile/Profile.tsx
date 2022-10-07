@@ -1,11 +1,21 @@
-import type { User } from '../../lib'
+import type { User, Video } from '../../lib'
 import type { DocumentReference } from 'firebase/firestore'
 
 import { Link, useParams } from '@solidjs/router'
+import { where } from 'firebase/firestore'
+import { collection, query } from 'firebase/firestore'
 import { doc, onSnapshot } from 'firebase/firestore'
-import { createSignal, onCleanup, onMount, Show } from 'solid-js'
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from 'solid-js'
 
 import defaultAvatar from '../../assets/default-avatar.webp'
+import { VideoItem } from '../../components'
 import { Edit } from '../../icons/Edit'
 import { getFirebase, store } from '../../lib'
 
@@ -17,6 +27,7 @@ type Params = {
 
 export default function Profile() {
   const [user, setUser] = createSignal<User | null>(null)
+  const [videos, setVideos] = createSignal<Array<Video> | null>(null)
 
   const { firestore } = getFirebase()
 
@@ -29,6 +40,25 @@ export default function Profile() {
     })
 
     onCleanup(() => unsubscribe)
+  })
+
+  let hasLoadedVideos = false
+
+  createEffect(() => {
+    if (store.user && !hasLoadedVideos) {
+      hasLoadedVideos = true
+      const videosQuery = query<Video>(
+        collection(firestore, 'videos'),
+        where('author.id', '==', store.user.id)
+      )
+      const unsubscribe = onSnapshot(videosQuery, (videosQuerySnapshot) => {
+        videosQuerySnapshot.forEach((doc) => {
+          setVideos([...(videos() || []), doc.data()])
+        })
+      })
+
+      onCleanup(() => unsubscribe)
+    }
   })
 
   return (
@@ -48,6 +78,10 @@ export default function Profile() {
           <h2> {user()?.fullname} </h2>
           <p> {user()?.description} </p>
         </div>
+      </div>
+
+      <div class="profile__videos">
+        <For each={videos()}>{(video) => <VideoItem video={video} />}</For>
       </div>
     </main>
   )

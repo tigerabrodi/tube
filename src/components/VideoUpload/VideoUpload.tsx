@@ -53,12 +53,12 @@ export function VideoUpload(props: VideoUploadProps) {
 
   // Necessary to keep separate state for the video otherwise it keeps flickering whenever you type in one of the inputs.
   const [videoState, setVideoState] = createSignal<VideoState>({
-    url: props.editedVideo()?.videoUrl || '',
+    url: props.editedVideo?.()?.videoUrl || '',
     file: null,
   })
 
   function shouldEditVideo() {
-    return Boolean(props.editedVideo())
+    return Boolean(props.editedVideo && props.editedVideo())
   }
 
   let hasErrorBeenTriggered = false
@@ -124,7 +124,12 @@ export function VideoUpload(props: VideoUploadProps) {
 
   return (
     <main class="video-upload">
-      <h1 class="sr-only">Upload new video</h1>
+      <Show
+        when={props.editedVideo}
+        fallback={<h1 class="sr-only">Upload new video</h1>}
+      >
+        <h1 class="sr-only">Edit video</h1>
+      </Show>
       <form class="video-upload__form" onSubmit={handleSubmit}>
         <Show when={props.status() === 'loading'}>
           <Spinner label="Saving video" class="spinner-video-upload" />

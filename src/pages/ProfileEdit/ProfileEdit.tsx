@@ -56,15 +56,15 @@ export default function ProfileEdit() {
       toast.error('You are not authorized to edit this profile.')
       hasErrorBeenTriggered = true
       navigate('/')
-      return
     }
+  })
 
-    if (store.hasFinishedLoadingUser && !hasErrorBeenTriggered) {
+  createEffect(() => {
+    if (store.user) {
       setFormState({
         fullname: store.user.fullname,
         description: store.user.description,
       })
-      return
     }
   })
 

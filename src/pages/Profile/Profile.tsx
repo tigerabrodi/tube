@@ -81,7 +81,9 @@ export default function Profile() {
       </div>
 
       <div class="profile__videos">
-        <For each={videos()}>{(video) => <VideoItem video={video} />}</For>
+        <For each={videos()}>
+          {(video) => <VideoItem video={video} headingLevel="third" />}
+        </For>
       </div>
     </main>
   )

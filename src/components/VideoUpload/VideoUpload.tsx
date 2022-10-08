@@ -1,4 +1,9 @@
-import type { FileInputEvent, FormEvent, Status } from '../../lib'
+import type {
+  FileInputEvent,
+  FormEvent,
+  Status,
+  Video as VideoType,
+} from '../../lib'
 import type { Accessor } from 'solid-js'
 
 import { Link, useNavigate } from '@solidjs/router'
@@ -15,7 +20,7 @@ import './VideoUpload.css'
 
 export type VideoState = {
   url: string
-  file: File
+  file: File | null
 }
 
 export type FormState = {
@@ -34,6 +39,7 @@ type VideoUploadProps = {
     videoState: VideoState
   }) => Promise<void>
   status: Accessor<Status>
+  editedVideo?: Accessor<VideoType>
 }
 
 export function VideoUpload(props: VideoUploadProps) {
@@ -42,14 +48,18 @@ export function VideoUpload(props: VideoUploadProps) {
     title: '',
     description: '',
     thumbnailUrl: '',
-    thumbnailFile: {} as File,
+    thumbnailFile: null as File | null,
   })
 
   // Necessary to keep separate state for the video otherwise it keeps flickering whenever you type in one of the inputs.
   const [videoState, setVideoState] = createSignal<VideoState>({
-    url: '',
-    file: {} as File,
+    url: props.editedVideo()?.videoUrl || '',
+    file: null,
   })
+
+  function shouldEditVideo() {
+    return Boolean(props.editedVideo())
+  }
 
   let hasErrorBeenTriggered = false
 
@@ -60,6 +70,20 @@ export function VideoUpload(props: VideoUploadProps) {
       hasErrorBeenTriggered = true
       navigate('/')
       return
+    }
+
+    if (shouldEditVideo()) {
+      setFormState({
+        thumbnailFile: null,
+        title: props.editedVideo().title,
+        description: props.editedVideo().description,
+        thumbnailUrl: props.editedVideo().thumbnailUrl,
+      })
+
+      setVideoState({
+        url: props.editedVideo().videoUrl,
+        file: null,
+      })
     }
   })
 
@@ -114,7 +138,7 @@ export function VideoUpload(props: VideoUploadProps) {
             placeholder="Vlog visiting Tokyo during summer"
             value={formState().title}
             onInput={handleFormStateChange}
-            required
+            required={!shouldEditVideo()}
           />
         </div>
 
@@ -126,7 +150,7 @@ export function VideoUpload(props: VideoUploadProps) {
             placeholder="If you like the video, please give me a thumbs up and don't forget to subscribe to my channel!"
             value={formState().description}
             onInput={handleFormStateChange}
-            required
+            required={!shouldEditVideo()}
           />
         </div>
 
@@ -135,7 +159,7 @@ export function VideoUpload(props: VideoUploadProps) {
             type="file"
             class="sr-only"
             id="thumbnail"
-            required
+            required={!shouldEditVideo()}
             accept="image/*"
             onChange={onImageUpload}
           />
@@ -154,7 +178,7 @@ export function VideoUpload(props: VideoUploadProps) {
             type="file"
             class="sr-only"
             id="video"
-            required
+            required={!shouldEditVideo()}
             accept="video/*"
             onChange={onVideoUpload}
           />

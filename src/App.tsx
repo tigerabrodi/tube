@@ -18,6 +18,7 @@ const Register = lazy(() => import('./pages/Register'))
 const ProfileEdit = lazy(() => import('./pages/ProfileEdit'))
 const Profile = lazy(() => import('./pages/Profile'))
 const VideosNew = lazy(() => import('./pages/VideosNew'))
+const VideoEdit = lazy(() => import('./pages/VideoEdit'))
 const VideoDetail = lazy(() => import('./pages/VideoDetail'))
 
 export function App() {
@@ -70,6 +71,7 @@ export function App() {
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/videos/new" component={VideosNew} />
+        <Route path="/videos/:id/edit" component={VideoEdit} />
         <Route path="/videos/:id" component={VideoDetail} />
       </Routes>
     </>

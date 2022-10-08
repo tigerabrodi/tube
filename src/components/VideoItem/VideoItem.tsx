@@ -9,6 +9,7 @@ import './VideoItem.css'
 
 type VideoItemProps = {
   video: Video
+  headingLevel: 'second' | 'third'
 }
 
 export function VideoItem(props: VideoItemProps) {
@@ -21,7 +22,14 @@ export function VideoItem(props: VideoItemProps) {
       <img src={props.video.thumbnailUrl} alt="" class="video__thumbnail" />
       <img src={props.video.thumbnailUrl} alt="" class="video__author-image" />
 
-      <h2 class="video__title">{props.video.title}</h2>
+      <Show when={props.headingLevel === 'second'}>
+        <h2 class="video__title">{props.video.title}</h2>
+      </Show>
+
+      <Show when={props.headingLevel === 'third'}>
+        <h3 class="video__title">{props.video.title}</h3>
+      </Show>
+
       <Link href={`/profiles/${props.video.id}`} class="video__author-fullname">
         {props.video.author.fullname}
       </Link>
@@ -32,7 +40,11 @@ export function VideoItem(props: VideoItemProps) {
       </p>
 
       <Show when={store.user && store.user.id === props.video.author.id}>
-        <Link class="video__edit" href={`/videos/${props.video.id}/edit`}>
+        <Link
+          class="video__edit"
+          href={`/videos/${props.video.id}/edit`}
+          aria-label="Edit video"
+        >
           <Edit />
         </Link>
       </Show>

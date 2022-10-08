@@ -19,3 +19,12 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 import '@testing-library/cypress/add-commands'
+import { User } from './types'
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login: (user: User) => void
+    }
+  }
+}

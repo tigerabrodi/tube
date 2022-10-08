@@ -25,3 +25,12 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import 'cypress-file-upload'
+import { User } from './types'
+
+function login(user: User) {
+  cy.findByLabelText('Email').type(user.email)
+  cy.findByLabelText('Password').type(user.password)
+  cy.findByRole('button', { name: 'Login' }).click()
+}
+
+Cypress.Commands.add('login', login)

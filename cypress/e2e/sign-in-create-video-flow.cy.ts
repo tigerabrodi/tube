@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
+import { User } from '../support/types'
 
 const DEMO_VIDEO = 'demo-video.mp4'
 const DEMO_THUMBNAIL = 'demo-thumbnail.webp'
 
-const firstUser = {
+const firstUser: User = {
   email: 'john@gmail.com',
   password: 'danaher123',
   fullname: 'John Danaher',
@@ -23,10 +24,7 @@ beforeEach(() => {
 it('Should be able to sign in, create a new video and edit the video.', () => {
   cy.visit('/login')
 
-  // login
-  cy.findByLabelText('Email').type(firstUser.email)
-  cy.findByLabelText('Password').type(firstUser.password)
-  cy.findByRole('button', { name: 'Login' }).click()
+  cy.login(firstUser)
 
   // Create video
   cy.findByRole('link', { name: 'Upload' }).click()

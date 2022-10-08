@@ -82,7 +82,7 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
 
   // Go to edit video
   cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
-  cy.findByRole('link', { name: 'Edit video' })
+  cy.findByRole('link', { name: 'Edit video' }).click()
 
   // Edit video
   cy.findByRole('heading', { name: 'Edit video', level: 1 }).should('exist')

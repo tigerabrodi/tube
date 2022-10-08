@@ -33,4 +33,9 @@ function login(user: User) {
   cy.findByRole('button', { name: 'Login' }).click()
 }
 
+function logout() {
+  cy.findByRole('button', { name: 'Logout' }).click()
+}
+
+Cypress.Commands.add('logout', logout)
 Cypress.Commands.add('login', login)

@@ -81,8 +81,7 @@ it('Should be able to sign up, edit profile and logout.', () => {
   // Edited Profile
   cy.findByText(user.editedDescription).should('be.visible')
 
-  // Logout
-  cy.findByRole('button', { name: 'Logout' }).click()
+  cy.logout()
 
   // Toast message
   cy.findByRole('status').within(() => {

@@ -21,17 +21,15 @@ import { getFirebase, store } from '../../lib'
 
 import './Profile.css'
 
-type Params = {
-  id: string
-}
-
 export default function Profile() {
   const [user, setUser] = createSignal<User | null>(null)
   const [videos, setVideos] = createSignal<Array<Video> | null>(null)
 
   const { firestore } = getFirebase()
 
-  const { id } = useParams<Params>()
+  const { id } = useParams<{
+    id: string
+  }>()
 
   onMount(() => {
     const userDoc = doc(firestore, `/users/${id}`) as DocumentReference<User>
@@ -45,12 +43,13 @@ export default function Profile() {
   let hasLoadedVideos = false
 
   createEffect(() => {
-    if (store.user && !hasLoadedVideos) {
+    if (user() && !hasLoadedVideos) {
       hasLoadedVideos = true
       const videosQuery = query<Video>(
         collection(firestore, 'videos'),
-        where('author.id', '==', store.user.id)
+        where('author.id', '==', user().id)
       )
+
       const unsubscribe = onSnapshot(videosQuery, (videosQuerySnapshot) => {
         videosQuerySnapshot.forEach((doc) => {
           setVideos([...(videos() || []), doc.data()])
@@ -62,29 +61,33 @@ export default function Profile() {
   })
 
   return (
-    <main class="profile">
-      <h1 class="sr-only">Profile</h1>
-      <div class="profile__info">
-        <Show when={store.user?.id === user()?.id}>
-          <Link href={`/profiles/${store.user?.id}/edit`} aria-label="Edit">
-            <Edit />
-          </Link>
-        </Show>
-        <img
-          src={user()?.imageUrl === '' ? defaultAvatar : user()?.imageUrl}
-          alt=""
-        />
-        <div>
-          <h2> {user()?.fullname} </h2>
-          <p> {user()?.description} </p>
+    <Show when={user()}>
+      (
+      <main class="profile">
+        <h1 class="sr-only">Profile</h1>
+        <div class="profile__info">
+          <Show when={store.user?.id === user().id}>
+            <Link href={`/profiles/${store.user?.id}/edit`} aria-label="Edit">
+              <Edit />
+            </Link>
+          </Show>
+          <img
+            src={user().imageUrl === '' ? defaultAvatar : user().imageUrl}
+            alt=""
+          />
+          <div>
+            <h2> {user().fullname} </h2>
+            <p> {user().description} </p>
+          </div>
         </div>
-      </div>
 
-      <div class="profile__videos">
-        <For each={videos()}>
-          {(video) => <VideoItem video={video} headingLevel="third" />}
-        </For>
-      </div>
-    </main>
+        <div class="profile__videos">
+          <For each={videos()}>
+            {(video) => <VideoItem video={video} headingLevel="third" />}
+          </For>
+        </div>
+      </main>
+      )
+    </Show>
   )
 }

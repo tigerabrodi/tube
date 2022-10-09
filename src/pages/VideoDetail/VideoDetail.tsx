@@ -4,7 +4,7 @@ import type { DocumentReference } from 'firebase/firestore'
 import { Link, useNavigate, useParams } from '@solidjs/router'
 import { writeBatch } from 'firebase/firestore'
 import { doc, increment, onSnapshot, updateDoc } from 'firebase/firestore'
-import { createSignal, onCleanup, onMount, Show } from 'solid-js'
+import { createEffect, createSignal, onCleanup, onMount, Show } from 'solid-js'
 import toast from 'solid-toast'
 
 import { Edit } from '../../icons/Edit'
@@ -30,7 +30,7 @@ export default function VideoDetail() {
     return doc(firestore, `/users/${store.user.id}`) as DocumentReference<User>
   }
 
-  onMount(() => {
+  createEffect(() => {
     const unsubscribe = onSnapshot(videoDoc(), (doc) => {
       if (doc.exists()) {
         setVideo(doc.data())
@@ -48,12 +48,12 @@ export default function VideoDetail() {
   })
 
   function hasUserLikedVideo() {
-    return Boolean(store.user?.likedVideoIds.includes(video()?.id))
+    return Boolean(store.user.likedVideoIds.includes(video().id))
   }
 
   function likeButtonLabel() {
     return `${hasUserLikedVideo() ? 'Unlike' : 'Like'} video, currently ${
-      video()?.likes
+      video().likes
     } likes`
   }
 
@@ -92,61 +92,65 @@ export default function VideoDetail() {
   }
 
   return (
-    <main class="video-detail">
-      <video src={video()?.videoUrl} controls class="video-detail__video" />
-      <div class="video-detail__video-info">
-        <h1>{video()?.title}</h1>
+    <Show when={video()}>
+      (
+      <main class="video-detail">
+        <video src={video().videoUrl} controls class="video-detail__video" />
+        <div class="video-detail__video-info">
+          <h1>{video().title}</h1>
 
-        <Show when={store.user}>
-          <button
-            aria-label={likeButtonLabel()}
-            class="video-detail__video-info-like"
-            onClick={onLike}
-          >
-            <Show when={hasUserLikedVideo()} fallback={<Like />}>
-              <Unlike />
-            </Show>
-            <span>{video()?.likes}</span>
-          </button>
-        </Show>
+          <Show when={store.user}>
+            <button
+              aria-label={likeButtonLabel()}
+              class="video-detail__video-info-like"
+              onClick={onLike}
+            >
+              <Show when={hasUserLikedVideo()} fallback={<Like />}>
+                <Unlike />
+              </Show>
+              <span>{video().likes}</span>
+            </button>
+          </Show>
 
-        <p class="video-detail__video-info-views">
-          <span>{video()?.views} views</span>
-          <span>•</span>
-          <span>{getDateWithTimestamp(getTimestamp(video()?.createdAt))}</span>
-        </p>
+          <p class="video-detail__video-info-views">
+            <span>{video().views} views</span>
+            <span>•</span>
+            <span>{getDateWithTimestamp(getTimestamp(video().createdAt))}</span>
+          </p>
 
-        <p class="video-detail__video-info-description">
-          {video()?.description}
-        </p>
+          <p class="video-detail__video-info-description">
+            {video().description}
+          </p>
 
-        <img
-          src={video()?.author.imageUrl}
-          alt=""
-          class="video-detail__video-author-image"
-        />
+          <img
+            src={video().author.imageUrl}
+            alt=""
+            class="video-detail__video-author-image"
+          />
 
-        <Link
-          href={`/profiles/${video()?.author.id}`}
-          class="video-detail__video-author-fullname"
-        >
-          {video()?.author.fullname}
-        </Link>
-
-        <p class="video-detail__video-author-subscribers">
-          {video()?.author.subscriberIds.length} subscribers
-        </p>
-
-        <Show when={store.user && store.user.id === video()?.author.id}>
           <Link
-            href={`/videos/${video()?.id}/edit`}
-            aria-label="Edit video"
-            class="video-detail__video-edit"
+            href={`/profiles/${video().author.id}`}
+            class="video-detail__video-author-fullname"
           >
-            <Edit />
+            {video().author.fullname}
           </Link>
-        </Show>
-      </div>
-    </main>
+
+          <p class="video-detail__video-author-subscribers">
+            {video().author.subscriberIds.length} subscribers
+          </p>
+
+          <Show when={store.user && store.user.id === video().author.id}>
+            <Link
+              href={`/videos/${video().id}/edit`}
+              aria-label="Edit video"
+              class="video-detail__video-edit"
+            >
+              <Edit />
+            </Link>
+          </Show>
+        </div>
+      </main>
+      )
+    </Show>
   )
 }

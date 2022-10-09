@@ -30,6 +30,17 @@ export default function VideoDetail() {
     return doc(firestore, `/users/${store.user.id}`) as DocumentReference<User>
   }
 
+  function authorUserDoc() {
+    return doc(
+      firestore,
+      `/users/${video().author.id}`
+    ) as DocumentReference<User>
+  }
+
+  onMount(async () => {
+    await updateDoc(videoDoc(), { views: increment(1) })
+  })
+
   createEffect(() => {
     const unsubscribe = onSnapshot(videoDoc(), (doc) => {
       if (doc.exists()) {
@@ -41,10 +52,6 @@ export default function VideoDetail() {
     })
 
     onCleanup(() => unsubscribe)
-  })
-
-  onMount(async () => {
-    await updateDoc(videoDoc(), { views: increment(1) })
   })
 
   function hasUserLikedVideo() {
@@ -86,6 +93,50 @@ export default function VideoDetail() {
 
     batch.update(currentUserDoc(), {
       likedVideoIds: newUserLikedIds,
+    })
+
+    await batch.commit()
+  }
+
+  function hasUserSubscribedToAuthor() {
+    return Boolean(store.user.subscribedToIds.includes(video()?.author.id))
+  }
+
+  async function onSubscribe() {
+    const batch = writeBatch(firestore)
+
+    batch.update(authorUserDoc(), {
+      subscribers: increment(1),
+    })
+
+    batch.update(videoDoc(), {
+      'author.subscribers': increment(1),
+    })
+
+    batch.update(currentUserDoc(), {
+      subscribedToIds: [...store.user.subscribedToIds, video().author.id],
+    })
+
+    await batch.commit()
+  }
+
+  async function onUnsubscribe() {
+    const batch = writeBatch(firestore)
+
+    batch.update(authorUserDoc(), {
+      subscribers: increment(-1),
+    })
+
+    batch.update(videoDoc(), {
+      'author.subscribers': increment(-1),
+    })
+
+    const newSubscribedToIds = store.user.subscribedToIds.filter(
+      (id) => id !== video().author.id
+    )
+
+    batch.update(currentUserDoc(), {
+      subscribedToIds: newSubscribedToIds,
     })
 
     await batch.commit()
@@ -136,8 +187,31 @@ export default function VideoDetail() {
           </Link>
 
           <p class="video-detail__video-author-subscribers">
-            {video().author.subscriberIds.length} subscribers
+            {video().author.subscribers} subscribers
           </p>
+
+          <Show when={store.user && store.user.id !== video().author.id}>
+            <Show
+              when={hasUserSubscribedToAuthor()}
+              fallback={
+                <button
+                  class="video-detail__subscribe"
+                  type="button"
+                  onClick={onSubscribe}
+                >
+                  Subscribe
+                </button>
+              }
+            >
+              <button
+                class="video-detail__subscribing"
+                type="button"
+                onClick={onUnsubscribe}
+              >
+                Subscribing
+              </button>
+            </Show>
+          </Show>
 
           <Show when={store.user && store.user.id === video().author.id}>
             <Link

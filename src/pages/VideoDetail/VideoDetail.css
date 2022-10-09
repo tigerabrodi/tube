@@ -20,7 +20,7 @@
   width: 848px;
   align-items: center;
   justify-items: start;
-  grid-template-areas: 'title title likes' 'views views views' 'description description description' 'image fullname edit' 'image subscribers edit';
+  grid-template-areas: 'title title likes' 'views views views' 'description description description' 'image fullname action' 'image subscribers action';
   grid-template-columns: auto 70% auto;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .video-detail__video-edit {
-  grid-area: edit;
+  grid-area: action;
   width: 22px;
   height: 22px;
   justify-self: start;
@@ -110,4 +110,22 @@
 
 .video-detail__video-edit path {
   fill: var(--colors-tertiary);
+}
+
+.video-detail__subscribe {
+  font-weight: bold;
+  font-size: calc(1rem * 16 / 16);
+  color: var(--colors-tertiary);
+  background-color: var(--colors-quaternary);
+  padding: 10px;
+  justify-self: start;
+}
+
+.video-detail__subscribing {
+  justify-self: start;
+  font-size: calc(1rem * 16 / 16);
+  font-weight: 700;
+  background-color: var(--colors-tertiary);
+  color: var(--colors-secondary);
+  padding: 10px;
 }

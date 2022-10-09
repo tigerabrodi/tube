@@ -128,7 +128,7 @@ export default function VideoEdit() {
         where('author.id', '==', store.user.id)
       )
 
-      const videosQuerySnapshot = await getDocs(videosQuery)
+      const videosQuerySnapshot = await getDocs<Video>(videosQuery)
 
       if (videosQuerySnapshot.empty) {
         toast.error("You're not authorized to edit this video.")

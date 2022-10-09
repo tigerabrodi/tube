@@ -67,3 +67,24 @@
   column-gap: 20px;
   justify-content: space-between;
 }
+
+.profile__info button {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  font-size: calc(1rem * 24 / 16);
+  font-weight: 700;
+  padding: 10px;
+}
+
+.profile__subscribe {
+  color: var(--colors-tertiary);
+  background-color: var(--colors-quaternary);
+  box-shadow: 0 2px 2px var(--colors-quaternary);
+}
+
+.profile__subscribing {
+  color: var(--colors-secondary);
+  background-color: var(--colors-tertiary);
+  box-shadow: 0 2px 2px var(--colors-tertiary);
+}

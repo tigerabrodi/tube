@@ -128,7 +128,7 @@ export default function VideoDetail() {
     await batch.commit()
   }
 
-  function hasUserSubscribedToAuthor() {
+  function hasCurrentUserSubscribedToAuthor() {
     return Boolean(store.user.subscribedToIds.includes(video()?.author.id))
   }
 
@@ -247,7 +247,7 @@ export default function VideoDetail() {
 
           <Show when={store.user && store.user.id !== video().author.id}>
             <Show
-              when={hasUserSubscribedToAuthor()}
+              when={hasCurrentUserSubscribedToAuthor()}
               fallback={
                 <button
                   class="video-detail__subscribe"

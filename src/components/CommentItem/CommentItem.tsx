@@ -1,5 +1,7 @@
 import type { Comment } from '../../lib'
 
+import { Link } from '@solidjs/router'
+
 import defaultAvatar from '../../assets/default-avatar.webp'
 import { getDateWithTimestamp, getTimestamp } from '../../lib'
 import './CommentItem.css'
@@ -19,13 +21,15 @@ export function CommentItem(props: CommentItemProps) {
         }
         alt=""
       />
-      <p class="comment__info">
-        <span>{props.comment.author.fullname}</span>
+      <div class="comment__info">
+        <Link href={`/profiles/${props.comment.author.id}`}>
+          {props.comment.author.fullname}
+        </Link>
         <span>•</span>
         <span>
           {getDateWithTimestamp(getTimestamp(props.comment.createdAt))}
         </span>
-      </p>
+      </div>
       <p class="comment__text">{props.comment.text}</p>
     </div>
   )

@@ -2,10 +2,12 @@ import type { FormEvent } from '../../lib'
 
 import { useNavigate } from '@solidjs/router'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createEffect, Show } from 'solid-js'
 import toast from 'solid-toast'
 
 import { Authenticate } from '../../components'
 import { getFirebase } from '../../lib'
+import { store } from '../../lib'
 
 type FormElements = HTMLFormControlsCollection & {
   email: HTMLInputElement
@@ -15,6 +17,12 @@ type FormElements = HTMLFormControlsCollection & {
 export default function Login() {
   const navigate = useNavigate()
   const { auth } = getFirebase()
+
+  createEffect(() => {
+    if (store.user) {
+      navigate('/')
+    }
+  })
 
   async function onLogin(event: FormEvent<FormElements>) {
     event.preventDefault()
@@ -34,5 +42,9 @@ export default function Login() {
     }
   }
 
-  return <Authenticate onAuthenticate={onLogin} />
+  return (
+    <Show when={store.hasFinishedLoadingAuthUser}>
+      <Authenticate onAuthenticate={onLogin} />
+    </Show>
+  )
 }

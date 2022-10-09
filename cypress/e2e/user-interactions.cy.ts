@@ -41,7 +41,11 @@ it('User should be able to interact with another user: Subscribe to account, see
   cy.findByLabelText('Thumbnail').attachFile(DEMO_THUMBNAIL)
   cy.findByLabelText('Video').attachFile(DEMO_VIDEO)
   cy.findByRole('button', { name: 'Save' }).click()
-  cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
+  cy.findByRole('heading', {
+    level: 1,
+    name: video.title,
+    timeout: 8000,
+  }).should('be.visible')
 
   // Sign in with second user and go to video
   cy.logout()

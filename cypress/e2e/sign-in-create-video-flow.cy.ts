@@ -50,7 +50,11 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
   cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')
 
   // Assert the video page
-  cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
+  cy.findByRole('heading', {
+    level: 1,
+    name: video.title,
+    timeout: 8000,
+  }).should('be.visible')
   cy.findByText(video.description).should('be.visible')
   cy.findByText('1 views').should('be.visible')
   cy.findByText('0 subscribers').should('be.visible')

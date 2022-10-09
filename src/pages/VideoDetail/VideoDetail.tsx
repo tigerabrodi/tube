@@ -189,6 +189,7 @@ export default function VideoDetail() {
       text: commentValue,
       createdAt: serverTimestamp() as Timestamp,
       author: {
+        id: store.user.id,
         fullname: store.user.fullname,
         imageUrl: store.user.imageUrl,
       },

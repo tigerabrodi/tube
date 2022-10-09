@@ -43,6 +43,7 @@ export const CommentSchema = z.object({
   text: z.string(),
   createdAt: TimestampSchema,
   author: z.object({
+    id: z.string(),
     imageUrl: z.string(),
     fullname: z.string(),
   }),

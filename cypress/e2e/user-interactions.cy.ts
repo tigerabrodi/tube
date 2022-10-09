@@ -98,4 +98,24 @@ it('User should be able to interact with another user: Subscribe to account, see
   cy.findByRole('heading', { level: 2, name: secondUser.fullname }).should(
     'be.visible'
   )
+
+  // Assert feed filters
+  cy.findByRole('link', { name: 'Tube' }).click()
+
+  cy.findByLabelText('All').should('be.checked')
+  cy.findByRole('link', { name: video.title }).should('be.visible')
+
+  // Need to click on text because input is hidden visibily
+  cy.findByText('Subscribing').click()
+  cy.findByRole('link', { name: video.title }).should('not.exist')
+
+  cy.findByText('All').click()
+  cy.findByRole('link', { name: video.title }).click()
+  cy.findByRole('button', { name: 'Subscribe' }).click()
+  cy.findByRole('button', { name: 'Subscribing' }).should('be.visible')
+
+  cy.findByRole('link', { name: 'Tube' }).click()
+
+  cy.findByText('Subscribing').click()
+  cy.findByRole('link', { name: video.title }).should('be.visible')
 })

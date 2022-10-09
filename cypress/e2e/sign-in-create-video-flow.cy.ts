@@ -47,7 +47,6 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
   })
 
   cy.findByRole('button', { name: 'Save' }).click()
-  cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')
 
   // Assert the video page
   cy.findByRole('heading', {
@@ -88,16 +87,19 @@ it('Should be able to sign in, create a new video and edit the video.', () => {
 
   // Edit video
   cy.findByRole('heading', { name: 'Edit video', level: 1 }).should('exist')
+  cy.pause()
+  cy.findByLabelText('Title').clear()
   cy.findByLabelText('Title').clear().type(video.editedTitle)
   cy.findByLabelText('Description').clear().type(video.editedDescription)
 
   cy.findByRole('button', { name: 'Save' }).click()
-  cy.findByRole('alert', { name: 'Saving video' }).should('be.visible')
 
   // Assert the edited video page
-  cy.findByRole('heading', { level: 1, name: video.editedTitle }).should(
-    'be.visible'
-  )
+  cy.findByRole('heading', {
+    level: 1,
+    name: video.editedTitle,
+    timeout: 8000,
+  }).should('be.visible')
   cy.findByText(video.editedDescription).should('be.visible')
   cy.findByText('3 views').should('be.visible')
   cy.findByText('0 subscribers').should('be.visible')

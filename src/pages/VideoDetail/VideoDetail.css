@@ -3,11 +3,11 @@
   flex-direction: column;
   align-items: center;
   min-height: 100%;
-  width: 100%;
+  width: 848px;
 }
 
 .video-detail__video {
-  width: 848px;
+  width: 100%;
   height: 416px;
   object-fit: cover;
   object-position: center;
@@ -15,9 +15,9 @@
 }
 
 .video-detail__video-info {
+  width: 100%;
   display: grid;
   margin-top: 30px;
-  width: 848px;
   align-items: center;
   justify-items: start;
   grid-template-areas: 'title title likes' 'views views views' 'description description description' 'image fullname action' 'image subscribers action';
@@ -119,6 +119,7 @@
   background-color: var(--colors-quaternary);
   padding: 10px;
   justify-self: start;
+  box-shadow: 0 1px 3px var(--colors-quaternary);
 }
 
 .video-detail__subscribing {
@@ -128,4 +129,62 @@
   background-color: var(--colors-tertiary);
   color: var(--colors-secondary);
   padding: 10px;
+  box-shadow: 0 1px 3px var(--colors-tertiary);
+}
+
+.video-detail__comments-form {
+  display: grid;
+  grid-template-areas: 'heading heading' 'img input' 'button button';
+  align-items: center;
+  justify-items: start;
+  width: 100%;
+  row-gap: 20px;
+  column-gap: 10px;
+  margin-top: 60px;
+}
+
+.video-detail__comments-form h2 {
+  grid-area: heading;
+  font-weight: 500;
+  font-size: calc(1rem * 20 / 16);
+  color: var(--colors-tertiary);
+}
+
+.video-detail__comments-form img {
+  grid-area: img;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.video-detail__comments-form input {
+  grid-area: input;
+  width: 790px;
+  justify-self: end;
+  color: var(--colors-tertiary);
+  padding: 0 0 5px 5px;
+  font-size: calc(1rem * 16 / 16);
+  background-color: var(--colors-primary);
+  border-bottom: 2px solid var(--colors-tertiary);
+}
+
+.video-detail__comments-form button {
+  grid-area: button;
+  justify-self: end;
+  background-color: var(--colors-primary);
+  border: 2px solid var(--colors-tertiary);
+  color: var(--colors-tertiary);
+  font-weight: 700;
+  padding: 10px;
+  font-size: calc(1rem * 16 / 16);
+  box-shadow: 0 1px 3px var(--colors-tertiary);
+}
+
+.video-detail__comments {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 }

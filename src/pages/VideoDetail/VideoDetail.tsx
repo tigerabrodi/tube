@@ -1,12 +1,23 @@
-import type { User, Video } from '../../lib'
+import type { Comment, FormEvent, Timestamp, User, Video } from '../../lib'
 import type { DocumentReference } from 'firebase/firestore'
 
 import { Link, useNavigate, useParams } from '@solidjs/router'
+import { collection, serverTimestamp, setDoc } from 'firebase/firestore'
 import { writeBatch } from 'firebase/firestore'
 import { doc, increment, onSnapshot, updateDoc } from 'firebase/firestore'
-import { createEffect, createSignal, onCleanup, onMount, Show } from 'solid-js'
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from 'solid-js'
 import toast from 'solid-toast'
+import { v4 } from 'uuid'
 
+import defaultAvatar from '../../assets/default-avatar.webp'
+import { CommentItem } from '../../components'
 import { Edit } from '../../icons/Edit'
 import { Like } from '../../icons/Like'
 import { Unlike } from '../../icons/Unlike'
@@ -14,8 +25,13 @@ import { getTimestamp } from '../../lib'
 import { getDateWithTimestamp, getFirebase, store } from '../../lib'
 import './VideoDetail.css'
 
+type FormElements = HTMLFormControlsCollection & {
+  comment: HTMLInputElement
+}
+
 export default function VideoDetail() {
   const [video, setVideo] = createSignal<Video | null>(null)
+  const [comments, setComments] = createSignal<Array<Comment> | null>(null)
   const navigate = useNavigate()
 
   const { firestore } = getFirebase()
@@ -50,6 +66,20 @@ export default function VideoDetail() {
         navigate('/')
       }
     })
+
+    onCleanup(() => unsubscribe)
+  })
+
+  createEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firestore, `/videos/${id}/comments`),
+      (commentsSnapshot) => {
+        if (!commentsSnapshot.empty) {
+          const commentsData = commentsSnapshot.docs.map((doc) => doc.data())
+          setComments(commentsData)
+        }
+      }
+    )
 
     onCleanup(() => unsubscribe)
   })
@@ -142,6 +172,31 @@ export default function VideoDetail() {
     await batch.commit()
   }
 
+  async function onCommentSubmit(event: FormEvent<FormElements>) {
+    event.preventDefault()
+
+    const commentValue = event.currentTarget.elements.comment.value
+
+    const commentId = v4()
+
+    const commentDoc = doc(
+      firestore,
+      `/videos/${id}/comments/${commentId}`
+    ) as DocumentReference<Comment>
+
+    const comment: Comment = {
+      id: commentId,
+      text: commentValue,
+      createdAt: serverTimestamp() as Timestamp,
+      author: {
+        fullname: store.user.fullname,
+        imageUrl: store.user.imageUrl,
+      },
+    }
+
+    await setDoc(commentDoc, comment)
+  }
+
   return (
     <Show when={video()}>
       (
@@ -223,8 +278,37 @@ export default function VideoDetail() {
             </Link>
           </Show>
         </div>
+        <form class="video-detail__comments-form" onSubmit={onCommentSubmit}>
+          <h2>0 comments</h2>
+          <Show when={store.user}>
+            <img
+              src={
+                store.user.imageUrl !== '' ? store.user.imageUrl : defaultAvatar
+              }
+              alt=""
+            />
+            <label for="comment" class="sr-only">
+              Add a comment
+            </label>
+            <input
+              type="text"
+              name="comment"
+              id="comment"
+              placeholder="Add a comment..."
+              required
+            />
+            <button type="submit">Comment</button>
+          </Show>
+        </form>
+
+        <Show when={comments()}>
+          <div class="video-detail__comments">
+            <For each={comments()}>
+              {(comment) => <CommentItem comment={comment} />}
+            </For>
+          </div>
+        </Show>
       </main>
-      )
     </Show>
   )
 }

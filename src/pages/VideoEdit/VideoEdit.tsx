@@ -3,16 +3,10 @@ import type { Status, Video } from '../../lib'
 import type { DocumentReference } from 'firebase/firestore'
 
 import { useNavigate, useParams } from '@solidjs/router'
-import {
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore'
+import { getDocs } from 'firebase/firestore'
+import { collection, doc, query, updateDoc, where } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { createEffect, createSignal, onCleanup } from 'solid-js'
+import { createEffect, createSignal } from 'solid-js'
 import toast from 'solid-toast'
 
 import { VideoUpload } from '../../components'
@@ -120,31 +114,32 @@ export default function VideoEdit() {
     setStatus('success')
   }
 
-  let hasLoadedVideos = false
   let hasTriggeredError = false
 
-  createEffect(() => {
-    if (store.user && !hasLoadedVideos && !hasTriggeredError) {
-      hasLoadedVideos = true
+  const [hasLoadedVideos, setHasLoadedVideos] = createSignal(false)
+
+  createEffect(async () => {
+    if (store.user && !hasLoadedVideos() && !hasTriggeredError) {
+      setHasLoadedVideos(true)
 
       const videosQuery = query<Video>(
         collection(firestore, 'videos'),
         where('id', '==', id),
         where('author.id', '==', store.user.id)
       )
-      const unsubscribe = onSnapshot(videosQuery, (videosQuerySnapshot) => {
-        if (videosQuerySnapshot.empty) {
-          toast.error("You're not authorized to edit this video.")
-          hasTriggeredError = true
-          navigate('/')
-        }
 
-        const videoData = videosQuerySnapshot.docs[0].data()
+      const videosQuerySnapshot = await getDocs(videosQuery)
 
-        setVideo(videoData)
-      })
+      if (videosQuerySnapshot.empty) {
+        toast.error("You're not authorized to edit this video.")
+        hasTriggeredError = true
+        navigate('/')
+        return
+      }
 
-      onCleanup(() => unsubscribe)
+      const videoData = videosQuerySnapshot.docs[0].data()
+
+      setVideo(videoData)
     }
   })
 

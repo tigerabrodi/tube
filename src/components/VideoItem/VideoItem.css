@@ -38,6 +38,7 @@
   font-weight: 400;
   color: var(--colors-secondary);
   font-size: calc(1rem * 14 / 16);
+  text-decoration: underline;
 }
 
 .video__views {

@@ -50,7 +50,7 @@ export default function ProfileEdit() {
     const isUserNotAuthorized = id !== store.user?.id
     if (
       isUserNotAuthorized &&
-      store.hasFinishedLoadingUser &&
+      store.hasFinishedLoadingAuthUser &&
       !hasErrorBeenTriggered
     ) {
       toast.error('You are not authorized to edit this profile.')
@@ -148,6 +148,7 @@ export default function ProfileEdit() {
 
     const snapshot = await uploadBytes(avatarRef, file)
     const imageUrl = await getDownloadURL(snapshot.ref)
+
     await handleUpdateUserDocument(imageUrl)
   }
 

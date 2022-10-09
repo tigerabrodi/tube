@@ -1,0 +1,39 @@
+.comment {
+  display: grid;
+  grid-template-areas: 'img info' 'img text';
+  grid-template-columns: 7% 93%;
+  margin-top: 30px;
+  row-gap: 6px;
+  justify-items: start;
+  align-items: center;
+}
+
+.comment img {
+  grid-area: img;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.comment__info {
+  grid-area: info;
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  font-size: calc(1rem * 14 / 16);
+  color: var(--colors-tertiary);
+}
+
+.comment__info span:first-of-type {
+  font-weight: 700;
+  font-size: calc(1rem * 16 / 16);
+}
+
+.comment__text {
+  grid-area: text;
+  font-size: calc(1rem * 15 / 16);
+  font-weight: 400;
+  color: var(--colors-tertiary);
+}

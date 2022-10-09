@@ -38,6 +38,18 @@ export const VideoSchema = z.object({
 
 export type Video = z.infer<typeof VideoSchema>
 
+export const CommentSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  createdAt: TimestampSchema,
+  author: z.object({
+    imageUrl: z.string(),
+    fullname: z.string(),
+  }),
+})
+
+export type Comment = z.infer<typeof CommentSchema>
+
 type FormElement<
   FormElements extends HTMLFormControlsCollection = HTMLFormControlsCollection
 > = HTMLFormElement & {

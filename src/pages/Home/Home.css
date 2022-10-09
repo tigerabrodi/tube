@@ -16,3 +16,27 @@
   column-gap: 20px;
   justify-content: space-between;
 }
+
+.home__filters {
+  display: flex;
+  align-items: center;
+  column-gap: 60px;
+  margin-top: 20px;
+}
+
+.home__filters input:checked + label {
+  color: var(--colors-tertiary);
+  background-color: var(--colors-primary);
+  border: 1px solid var(--colors-tertiary);
+}
+
+.home__filters label {
+  background-color: var(--colors-tertiary);
+  color: var(--colors-primary);
+  font-weight: 600;
+  font-size: calc(1rem * 20 / 16);
+  border: 1px solid var(--colors-primary);
+  padding: 10px 15px;
+  border-radius: 50px;
+  cursor: pointer;
+}

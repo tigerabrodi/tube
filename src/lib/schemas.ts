@@ -6,7 +6,7 @@ export const UserSchema = z.object({
   email: z.string(),
   description: z.string(),
   imageUrl: z.string(),
-  subscriberIds: z.array(z.string()),
+  subscribers: z.number(),
   subscribedToIds: z.array(z.string()),
   likedVideoIds: z.array(z.string()),
 })
@@ -32,7 +32,7 @@ export const VideoSchema = z.object({
     id: z.string(),
     imageUrl: z.string(),
     fullname: z.string(),
-    subscriberIds: z.array(z.string()),
+    subscribers: z.number(),
   }),
 })
 

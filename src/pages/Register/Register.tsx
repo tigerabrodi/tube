@@ -50,7 +50,7 @@ export default function Register() {
         description: '',
         imageUrl: '',
         likedVideoIds: [],
-        subscriberIds: [],
+        subscribers: 0,
         subscribedToIds: [],
       }
 

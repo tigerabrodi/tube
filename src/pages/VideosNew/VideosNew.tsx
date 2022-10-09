@@ -65,7 +65,7 @@ export default function VideosNew() {
         id: store.user.id,
         imageUrl: store.user.imageUrl,
         fullname: store.user.fullname,
-        subscriberIds: store.user.subscriberIds,
+        subscribers: 0,
       },
     }
 

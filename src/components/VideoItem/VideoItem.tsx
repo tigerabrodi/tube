@@ -20,7 +20,11 @@ export function VideoItem(props: VideoItemProps) {
       class="video"
     >
       <img src={props.video.thumbnailUrl} alt="" class="video__thumbnail" />
-      <img src={props.video.thumbnailUrl} alt="" class="video__author-image" />
+      <img
+        src={props.video.author.imageUrl}
+        alt=""
+        class="video__author-image"
+      />
 
       <Show when={props.headingLevel === 'second'}>
         <h2 class="video__title">{props.video.title}</h2>
@@ -30,7 +34,10 @@ export function VideoItem(props: VideoItemProps) {
         <h3 class="video__title">{props.video.title}</h3>
       </Show>
 
-      <Link href={`/profiles/${props.video.id}`} class="video__author-fullname">
+      <Link
+        href={`/profiles/${props.video.author.id}`}
+        class="video__author-fullname"
+      >
         {props.video.author.fullname}
       </Link>
       <p class="video__views">

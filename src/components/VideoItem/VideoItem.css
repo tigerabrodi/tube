@@ -30,6 +30,7 @@
   font-weight: 700;
   font-size: calc(1rem * 16 / 16);
   color: var(--colors-tertiary);
+  width: 200px;
 }
 
 .video__author-fullname {

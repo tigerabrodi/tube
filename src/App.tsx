@@ -34,18 +34,22 @@ export function App() {
         const userSnapshot = await getDoc(userDoc)
         const user = UserSchema.parse(userSnapshot.data())
 
-        setStore({ user, hasFinishedLoadingUser: true })
+        setStore({ user, hasFinishedLoadingAuthUser: true })
       } else {
-        setStore({ user: null, hasFinishedLoadingUser: true })
+        setStore({ user: null, hasFinishedLoadingAuthUser: true })
       }
     })
   })
 
   // Necessary to make sure user object updates whenever any changes happen to the user document in firestore.
   createEffect(() => {
-    if (store.user && store.hasFinishedLoadingUser) {
+    if (
+      store.user &&
+      store.hasFinishedLoadingAuthUser &&
+      !store.hasFinishedLoadingUser
+    ) {
       // Necessary so we don't end up rerunning this all the time
-      setStore({ hasFinishedLoadingUser: false })
+      setStore({ hasFinishedLoadingUser: true })
       const userDoc = doc(
         firestore,
         `/users/${store.user.id}`

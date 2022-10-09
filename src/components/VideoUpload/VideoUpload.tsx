@@ -64,7 +64,7 @@ export function VideoUpload(props: VideoUploadProps) {
   let hasErrorBeenTriggered = false
 
   createEffect(() => {
-    const isNotLoggedIn = store.hasFinishedLoadingUser && !store.user
+    const isNotLoggedIn = store.hasFinishedLoadingAuthUser && !store.user
     if (isNotLoggedIn && !hasErrorBeenTriggered) {
       toast.error('You are not allowed to create a new video when logged out.')
       hasErrorBeenTriggered = true

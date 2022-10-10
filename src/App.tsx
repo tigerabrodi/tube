@@ -11,6 +11,7 @@ import { Toaster } from 'solid-toast'
 import { Navigation } from './components'
 import { store } from './lib'
 import { getFirebase, setStore, UserSchema } from './lib'
+import { Results } from './pages/Results'
 
 const Home = lazy(() => import('./pages/Home'))
 const Login = lazy(() => import('./pages/Login'))
@@ -71,6 +72,7 @@ export function App() {
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/results" component={Results} />
         <Route path="/profiles/:id/edit" component={ProfileEdit} />
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/profiles/:id" component={Profile} />

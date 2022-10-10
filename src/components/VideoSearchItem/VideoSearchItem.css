@@ -11,8 +11,6 @@
   grid-area: thumbnail;
   width: 248px;
   height: 140px;
-  object-position: center;
-  object-fit: cover;
 }
 
 .video-search__title {
@@ -35,8 +33,6 @@
 .video-search__author-image {
   grid-area: avatar;
   border-radius: 100%;
-  object-fit: cover;
-  object-position: center;
   width: 32px;
   height: 32px;
 }

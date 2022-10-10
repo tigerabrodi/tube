@@ -11,16 +11,12 @@
   grid-area: thumbnail;
   width: 248px;
   height: 140px;
-  object-fit: cover;
-  object-position: center;
 }
 
 .video__author-image {
   grid-area: image;
   width: 32px;
   height: 32px;
-  object-fit: cover;
-  object-position: center;
   border-radius: 100%;
   margin-top: 5px;
 }

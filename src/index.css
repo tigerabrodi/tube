@@ -80,3 +80,8 @@ button:focus-visible {
   top: auto;
   overflow: hidden;
 }
+
+img {
+  object-fit: cover;
+  object-position: center;
+}

@@ -79,15 +79,11 @@
 }
 
 .video-upload__form-file-group img {
-  object-fit: cover;
-  object-position: center;
   width: 400px;
   height: 200px;
 }
 
 .video-upload__form-file-group video {
-  object-fit: cover;
-  object-position: center;
   width: 600px;
   height: 300px;
 }

@@ -1,0 +1,60 @@
+.video-search {
+  display: grid;
+  grid-template-areas: 'thumbnail title title' 'thumbnail views views' 'thumbnail avatar fullname' 'thumbnail description description';
+  grid-template-columns: auto 32px auto;
+  align-items: center;
+  justify-items: start;
+  column-gap: 15px;
+}
+
+.video-search__thumbnail {
+  grid-area: thumbnail;
+  width: 248px;
+  height: 140px;
+  object-position: center;
+  object-fit: cover;
+}
+
+.video-search__title {
+  grid-area: title;
+  font-weight: 700;
+  font-size: calc(1rem * 18 / 16);
+  color: var(--colors-tertiary);
+}
+
+.video-search__views {
+  grid-area: views;
+  font-weight: 400;
+  font-size: calc(1rem * 14 / 16);
+  color: var(--colors-secondary);
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.video-search__author-image {
+  grid-area: avatar;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 32px;
+  height: 32px;
+}
+
+.video-search__author-fullname {
+  grid-area: fullname;
+  color: var(--colors-secondary);
+  font-size: calc(1rem * 14 / 16);
+  font-weight: 400;
+}
+
+.video-search__description {
+  grid-area: description;
+  color: var(--colors-tertiary);
+  font-size: calc(1rem * 16 / 16);
+  font-weight: 400;
+  max-width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

@@ -51,7 +51,7 @@ it('User should be able to interact with another user: Subscribe to account, see
   cy.logout()
   cy.visit('/login')
   cy.login(secondUser)
-  cy.findByRole('link', { name: video.title }).click()
+  cy.findByRole('link', { name: video.title, timeout: 8000 }).click()
 
   // Assert video page
   cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
@@ -118,4 +118,20 @@ it('User should be able to interact with another user: Subscribe to account, see
 
   cy.findByText('Subscribing').click()
   cy.findByRole('link', { name: video.title }).should('be.visible')
+
+  // Search video
+  cy.findByLabelText('Search videos').type(video.title)
+  cy.findByRole('button', { name: 'Search' }).click()
+
+  cy.location('pathname').should('eq', '/results')
+  cy.findByRole('heading', { level: 1, name: 'Results' }).should('exist')
+
+  cy.findByRole('heading', { level: 1, name: video.title }).should('not.exist')
+  cy.findByRole('heading', { level: 2, name: video.title }).should('be.visible')
+
+  cy.findByRole('link', { name: video.title }).click()
+  cy.findByRole('heading', { level: 1, name: video.title }).should('be.visible')
+
+  // unsubscribe
+  cy.findByRole('button', { name: 'Subscribing' }).click()
 })

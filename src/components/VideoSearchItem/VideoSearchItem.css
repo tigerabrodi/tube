@@ -1,10 +1,11 @@
 .video-search {
   display: grid;
   grid-template-areas: 'thumbnail title title' 'thumbnail views views' 'thumbnail avatar fullname' 'thumbnail description description';
-  grid-template-columns: auto 32px auto;
+  grid-template-columns: 248px 32px auto;
   align-items: center;
   justify-items: start;
   column-gap: 15px;
+  width: 640px;
 }
 
 .video-search__thumbnail {
@@ -49,7 +50,7 @@
   color: var(--colors-tertiary);
   font-size: calc(1rem * 16 / 16);
   font-weight: 400;
-  max-width: 400px;
+  max-width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

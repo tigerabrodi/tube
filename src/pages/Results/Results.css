@@ -10,4 +10,5 @@
   flex-direction: column;
   align-items: center;
   margin-top: 25px;
+  row-gap: 25px;
 }
